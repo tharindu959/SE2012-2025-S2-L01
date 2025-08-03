@@ -10,7 +10,14 @@ public class StudentMarks {
         n = scanner.nextInt();
         marks = new int[n + 1][4]; // subjects: 1=Math, 2=Chem, 3=Phys
 
-        System.out.println("\nCommands:\n- add [studentID]\n- update [studentID] [subjectID]\n- average [studentID]\n- average_s [subjectID]\n- total [studentID]\n- exit\n");
+        System.out.println("\nCommands:");
+        System.out.println("- add [studentID]");
+        System.out.println("- update [studentID] [subjectID]");
+        System.out.println("- average [studentID]");
+        System.out.println("- average_s [subjectID]");
+        System.out.println("- total [studentID]");
+        System.out.println("- grades");
+        System.out.println("- exit\n");
 
         while (true) {
             System.out.print("Enter command: ");
@@ -36,6 +43,9 @@ public class StudentMarks {
             } else if (command.equals("total")) {
                 int studentID = scanner.nextInt();
                 totalMarks(studentID);
+
+            } else if (command.equals("grades")) {
+                printGradesSummary();
 
             } else if (command.equals("exit")) {
                 break;
@@ -82,32 +92,32 @@ public class StudentMarks {
     }
 
     static void averageSubject(int subjectID) {
-    if (subjectID < 1 || subjectID > 3) {
-        System.out.println("Invalid subject ID.");
-        return;
-    }
+        if (subjectID < 1 || subjectID > 3) {
+            System.out.println("Invalid subject ID.");
+            return;
+        }
 
-    int total = 0;
-    for (int i = 1; i <= n; i++) {
-        total += marks[i][subjectID];
-    }
-    double avg = total / (double) n;
+        int total = 0;
+        for (int i = 1; i <= n; i++) {
+            total += marks[i][subjectID];
+        }
+        double avg = total / (double) n;
 
-    String subjectName = "";
-    switch (subjectID) {
-        case 1:
-            subjectName = "Mathematics";
-            break;
-        case 2:
-            subjectName = "Chemistry";
-            break;
-        case 3:
-            subjectName = "Physics";
-            break;
-    }
+        String subjectName = "";
+        switch (subjectID) {
+            case 1:
+                subjectName = "Mathematics";
+                break;
+            case 2:
+                subjectName = "Chemistry";
+                break;
+            case 3:
+                subjectName = "Physics";
+                break;
+        }
 
-    System.out.println("Average for " + subjectName + ": " + avg);
-}
+        System.out.println("Average for " + subjectName + ": " + avg);
+    }
 
     static void totalMarks(int id) {
         if (id < 1 || id > n) {
@@ -117,4 +127,25 @@ public class StudentMarks {
         int total = marks[id][1] + marks[id][2] + marks[id][3];
         System.out.println("Total marks for student " + id + ": " + total);
     }
+
+    static String getGrade(int score) {
+        if (score >= 90) return "Grade A";
+        else if (score >= 80) return "Grade B";
+        else if (score >= 70) return "Grade C";
+        else if (score >= 60) return "Grade D";
+        else return "Fail";
+    }
+
+    static void printGradesSummary() {
+        System.out.println("\nStudent Grades Summary:");
+        System.out.printf("%-10s %-15s %-15s %-15s%n", "StudentID", "Mathematics", "Chemistry", "Physics");
+        for (int i = 1; i <= n; i++) {
+            System.out.printf("%-10d %-15s %-15s %-15s%n",
+                    i,
+                    getGrade(marks[i][1]),
+                    getGrade(marks[i][2]),
+                    getGrade(marks[i][3]));
+        }
+    }
 }
+
